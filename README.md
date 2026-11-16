@@ -1,4 +1,4 @@
-# 🎨 PrismCam — Realtime Local Webcam Style Studio
+# 🎨 WebCamStudio — Realtime Local Webcam Style Studio
 
 [![Local First](https://img.shields.io/badge/Privacy-100%25%20Local-10b981?style=for-the-badge&logo=shield)](https://github.com)
 [![WebGPU](https://img.shields.io/badge/Acceleration-WebGPU%20%7C%20WebGL2-3b82f6?style=for-the-badge&logo=webgl)](https://github.com)
