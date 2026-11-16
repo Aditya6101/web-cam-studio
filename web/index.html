@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Realtime Local Webcam Style Transfer</title>
+    <meta name="description" content="100% Local Realtime Webcam Style Transfer: Lego, Anime, Cartoon, Sketch, and Pixel Art" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Top Navigation -->
+      <header class="top-nav">
+        <div class="brand">
+          <h1>Webcam Style Studio</h1>
+          <span class="brand-badge">100% Local GPU</span>
+        </div>
+
+        <div class="top-controls">
+          <button id="stream-toggle-btn" class="stream-btn active" title="Start or Stop Webcam Stream (Space)">
+            <span class="stream-dot"></span>
+            <span class="stream-label" id="stream-btn-text">Stop Stream</span>
+          </button>
+
+          <select id="camera-select" class="select-control" title="Select Video Device">
+            <option value="">Default Camera</option>
+          </select>
+
+          <select id="resolution-select" class="select-control" title="Capture Resolution">
+            <option value="640x480">480p</option>
+          </select>
+
+          <button id="mirror-btn" class="icon-btn active" title="Toggle Mirror (M)">
+          </button>
+
+          <button id="fullscreen-btn" class="icon-btn" title="Toggle Fullscreen">
+          </button>
+        </div>
+      </header>
+
+      <!-- Viewport Area -->
+      <main class="viewport-area">
+        <canvas id="viewport-canvas"></canvas>
+
+        <!-- Stats HUD -->
+        <div class="stats-hud" id="stats-hud">
+          <div class="stat-item">
+            <span class="stat-label">Frame Rate</span>
+            <span class="stat-value stat-fps" id="stat-fps">-- fps</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Latency</span>
+            <span class="stat-value stat-latency" id="stat-latency">-- ms</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Resolution</span>
+            <span class="stat-value" id="stat-resolution">--</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Engine</span>
+            <span class="stat-value" id="stat-backend">WebGL2</span>
+          </div>
+        </div>
+
+        <!-- Quick Floating Actions -->
+        <div class="quick-actions">
+          <button id="snapshot-btn" class="snapshot-btn" title="Save Snapshot (S)">
+            Capture
+          </button>
+          <button id="toggle-params-btn" class="icon-btn" title="Style Tuning Panel (P)">
+          </button>
+        </div>
+
+        <!-- Tunable Parameters Floating Panel -->
+        <div class="parameters-panel" id="parameters-panel">
+          <!-- Populated dynamically per active style -->
+        </div>
+
+        <!-- Paused Stream Placeholder (shown when stream is stopped) -->
+        <div class="paused-overlay" id="paused-overlay" style="display: none;">
+          <div class="paused-card">
+            <div class="paused-icon" id="paused-icon"></div>
+            <h3>Stream Paused</h3>
+            <p>Webcam hardware is released and inactive.</p>
+            <button id="resume-stream-btn" class="resume-btn">
+              Start Stream
+            </button>
+          </div>
+        </div>
+
+        <!-- Error / Permission Modal (Hidden by default) -->
+        <div class="error-banner" id="error-banner" style="display: none;">
+          <h3 id="error-title">Camera Permission Required</h3>
+          <p id="error-desc">Please grant camera permissions to preview and apply realtime styles.</p>
+          <button id="retry-camera-btn" class="retry-btn">Allow Camera Access</button>
+        </div>
+      </main>
+
+      <!-- Bottom Style Dock -->
+      <footer class="style-dock" id="style-dock">
+        <!-- Rendered dynamically from styles.ts -->
+      </footer>
+
+      <!-- Toast notifications -->
+      <div class="toast-container" id="toast-container"></div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
