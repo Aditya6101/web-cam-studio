@@ -119,6 +119,22 @@ export class UIManager {
       });
     }
 
+    // Flip Front / Rear Camera Button (especially for mobile)
+    const switchCameraBtn = document.getElementById('switch-camera-btn');
+    if (switchCameraBtn) {
+      switchCameraBtn.innerHTML = getIconSvg('switchCamera');
+      switchCameraBtn.addEventListener('click', async () => {
+        try {
+          await this.camera.toggleFacingMode();
+          const mode = this.camera.getFacingMode();
+          mirrorBtn?.classList.toggle('active', this.camera.getMirrored());
+          this.showToast(mode === 'user' ? 'Front Camera (Mirrored)' : 'Rear Camera (Unmirrored)');
+        } catch (err: any) {
+          this.showToast(`Camera switch: ${err.message}`);
+        }
+      });
+    }
+
     // Fullscreen Toggle
     const fsBtn = document.getElementById('fullscreen-btn');
     if (fsBtn) {
@@ -356,6 +372,9 @@ export class UIManager {
       } else if (e.key === 'm' || e.key === 'M') {
         const mirrorBtn = document.getElementById('mirror-btn');
         mirrorBtn?.click();
+      } else if (e.key === 'f' || e.key === 'F') {
+        const switchCameraBtn = document.getElementById('switch-camera-btn');
+        switchCameraBtn?.click();
       } else if (e.key === 's' || e.key === 'S') {
         this.takeSnapshot();
       } else if (e.key === 'p' || e.key === 'P') {

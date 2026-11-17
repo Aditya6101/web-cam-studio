@@ -22,6 +22,7 @@ export class CameraManager {
   private currentDeviceId: string | null = null;
   private currentResolution: CameraResolution = PRESET_RESOLUTIONS[1]; // default 480p
   private isMirrored: boolean = true;
+  private currentFacingMode: 'user' | 'environment' = 'user';
 
   constructor() {
     this.video = document.createElement('video');
@@ -40,6 +41,18 @@ export class CameraManager {
 
   public setMirrored(mirrored: boolean) {
     this.isMirrored = mirrored;
+  }
+
+  public getFacingMode(): 'user' | 'environment' {
+    return this.currentFacingMode;
+  }
+
+  public async toggleFacingMode(): Promise<MediaStream> {
+    this.currentFacingMode = this.currentFacingMode === 'user' ? 'environment' : 'user';
+    // Front camera is mirrored like a selfie mirror; rear environment camera is unmirrored
+    this.isMirrored = this.currentFacingMode === 'user';
+    this.currentDeviceId = null;
+    return this.start();
   }
 
   public async getAvailableCameras(): Promise<CameraDeviceInfo[]> {
@@ -68,10 +81,15 @@ export class CameraManager {
     this.stop();
     this.currentResolution = resolution;
 
+    if (typeof window !== 'undefined' && !window.isSecureContext) {
+      throw new Error('Camera access requires HTTPS or localhost when viewing on mobile devices.');
+    }
+
     const constraints: MediaStreamConstraints = {
       audio: false,
       video: {
         deviceId: deviceId ? { exact: deviceId } : undefined,
+        facingMode: !deviceId ? { ideal: this.currentFacingMode } : undefined,
         width: { ideal: resolution.width },
         height: { ideal: resolution.height },
         frameRate: { ideal: 60, min: 15 }

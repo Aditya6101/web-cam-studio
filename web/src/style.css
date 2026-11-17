@@ -623,3 +623,69 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transform: translateY(-1px);
   opacity: 0.95;
 }
+
+
+/* Mobile Responsive Optimizations */
+@media (max-width: 640px) {
+  .top-nav {
+    height: auto;
+    padding: 8px 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .brand h1 {
+    font-size: 1rem;
+  }
+
+  .brand-badge {
+    display: none;
+  }
+
+  .top-controls {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .select-control {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    max-width: 110px;
+  }
+
+  .stream-btn {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+  }
+
+  .stats-hud {
+    top: 8px;
+    left: 8px;
+    padding: 6px 10px;
+    gap: 10px;
+    font-size: 0.72rem;
+  }
+
+  .quick-actions {
+    top: 8px;
+    right: 8px;
+  }
+
+  .parameters-panel {
+    top: 56px;
+    right: 8px;
+    width: calc(100vw - 16px);
+    max-width: 320px;
+  }
+
+  .style-dock {
+    padding: 10px 14px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .style-card {
+    padding: 6px 10px;
+  }
+}
