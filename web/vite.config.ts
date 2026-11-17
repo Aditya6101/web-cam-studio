@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from 'vite';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 import path from 'path';
 import fs from 'fs';
 
@@ -32,30 +33,36 @@ function serveOrtMiddleware(): Plugin {
   };
 }
 
-export default defineConfig({
-  plugins: [
-    serveOrtMiddleware(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'node_modules/onnxruntime-web/dist/ort-wasm*',
-          dest: 'ort'
-        }
-      ]
-    })
-  ],
-  server: {
-    headers: {
-      'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'credentialless',
-      'Cross-Origin-Resource-Policy': 'cross-origin'
+export default defineConfig(({ mode }) => {
+  const isHttps = mode === 'https' || process.env.HTTPS === 'true';
+
+  return {
+    plugins: [
+      serveOrtMiddleware(),
+      viteStaticCopy({
+        targets: [
+          {
+            src: 'node_modules/onnxruntime-web/dist/ort-wasm*',
+            dest: 'ort',
+            rename: { stripBase: true }
+          }
+        ]
+      }),
+      ...(isHttps ? [basicSsl()] : [])
+    ],
+    server: {
+      headers: {
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Embedder-Policy': 'credentialless',
+        'Cross-Origin-Resource-Policy': 'cross-origin'
+      }
+    },
+    preview: {
+      headers: {
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Embedder-Policy': 'credentialless',
+        'Cross-Origin-Resource-Policy': 'cross-origin'
+      }
     }
-  },
-  preview: {
-    headers: {
-      'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Embedder-Policy': 'credentialless',
-      'Cross-Origin-Resource-Policy': 'cross-origin'
-    }
-  }
+  };
 });

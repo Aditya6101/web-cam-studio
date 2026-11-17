@@ -1,0 +1,13 @@
+{
+  "name": "prismcam-workspace",
+  "private": true,
+  "workspaces": [
+    "web"
+  ],
+  "scripts": {
+    "dev": "npm --prefix web run dev",
+    "dev:https": "npm --prefix web run dev:https",
+    "build": "npm --prefix web run build",
+    "preview": "npm --prefix web run preview"
+  }
+}
